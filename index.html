@@ -9,19 +9,25 @@
   <body>
     <div class="content">
       <div class="search-box">
-        <input id="sr-txt" class="sr-input" type="text" name="name" value="" placeholder="｡◕‿◕｡请输入关键词">
+        <input id="sr-txt" class="sr-input" type="text" name="keyCode" value="" placeholder="｡◕‿◕｡请输入关键词">
       </div>
+      <section class="translate">
+      </section>
     </div>
+    <div class="bg"></div>
   </body>
+  <script src="js/utils.js" charset="utf-8"></script>
   <script type="text/javascript">
       $(function(){
           $("#sr-txt").on('keyup',function(e){
-            var keyCode = e.keyCode || e.which;
-            if((keyCode >= 65 && keyCode <= 90) || (keyCode >= 48 && keyCode <= 57) || keyCode == 8 || keyCode == 46 || keyCode == 32){
-              console.log(keyCode);
+            var k = e.keyCode || e.which;
+            if(k === 13){
+              var keyWord = $(this).val();
+              utils.trans(keyWord,function(result){
+                  $('.translate').html(result).fadeIn('400');
+              });
             }
-          }
-          );
+          });
       });
   </script>
 </html>

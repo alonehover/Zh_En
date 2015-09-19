@@ -4,7 +4,11 @@ html,body{
   height: 100%;
   font-family: "微软雅黑";
 }
-.content{
+.bg{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
   height: 100%;
   width: 100%;
   background:url('../img/894.jpg') center /cover no-repeat;
@@ -27,4 +31,17 @@ html,body{
   box-sizing:border-box;
   -moz-box-sizing:border-box;
   -webkit-box-sizing:border-box;
+}
+
+.translate{
+  display: none;
+  width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  min-height: 32px;
+  line-height: 24px;
+  background: #000;
+  opacity: 0.6;
+  color: #fff;
+  box-sizing: border-box;
 }
