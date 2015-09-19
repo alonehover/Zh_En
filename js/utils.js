@@ -1,5 +1,4 @@
 (function(win,$){
-
     win.utils = {
       trans: function(key,call){
         this.youdao(key,function(data){
