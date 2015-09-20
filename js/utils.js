@@ -1,25 +1,31 @@
 (function(win,$){
     win.utils = {
       trans: function(key,call){
-        this.youdao(key,function(data){
-            if (data === "erro" || data.errorCode > 0) {
-                call("error");
-            }else if(data.errorCode === 0){
-                var html = '';
-                if (data.basic) {
-                  var basic = "";
-                  for (var i = 0; i < data.basic.explains.length; i++) {
-                    if(i == data.basic.explains.length -1){
-                      basic += data.basic.explains[i];
+        utils.youdao(key,function(yd){
+            if (yd === "error" || yd.errorCode > 0) {
+                utils.baidu(key,function(bd){
+                    if (bd=== "error") {
+                      call("暂无翻译");
                     }else {
-                      basic += data.basic.explains[i] + ', ';
+                      call(bd);
+                    }
+                });
+            }else if(yd.errorCode === 0){
+                var html = '';
+                if (yd.basic) {
+                  var basic = "";
+                  for (var i = 0; i < yd.basic.explains.length; i++) {
+                    if(i == yd.basic.explains.length -1){
+                      basic += yd.basic.explains[i];
+                    }else {
+                      basic += yd.basic.explains[i] + ', ';
                     }
                   }
                   html += '<p>[有道词典]</p><p>'+ basic +'</p>';
                 }
                 html +='<p>[有道翻译]</p>';
-                for (var j = 0; j < data.translation.length; j++) {
-                  html += '<p>' + data.translation[j] + '</p>';
+                for (var j = 0; j < yd.translation.length; j++) {
+                  html += '<p>' + yd.translation[j] + '</p>';
                 }
                 call(html);
             }
@@ -43,11 +49,36 @@
           call(result);
         })
         .fail(function() {
-          call('erro');
+          call('error');
         });
       },
-      baidu : function(){
-
+      baidu : function(key,call){
+        call('baidu');
+        $.ajax({
+          url: 'http://openapi.baidu.com/public/2.0/bmt/translate',
+          type: 'GET',
+          dataType: 'json',
+          data: {
+            from: 'auto',
+            to: 'auto',
+            client_id: 'yrjjArCI8RRHXvy8hSOz1lMq',
+            q: key
+          }
+        })
+        .done(function(result) {
+          if(result.error_code){
+            call("error");
+          }else {
+            var html = '<p>[百度翻译]</P>';
+            for (var i = 0; i < result.trans_result.length; i++) {
+              html += '<p>'+ result.trans_result[i].dst +'</p>';
+            }
+            call(html);
+          }
+        })
+        .fail(function() {
+          call("error");
+        });
       },
       biying : function(){
 
