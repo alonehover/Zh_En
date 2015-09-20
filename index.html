@@ -14,9 +14,10 @@
       <section class="translate">
       </section>
     </div>
-    <div class="bg"></div>
+    <div id="bg" class="bg"></div>
   </body>
   <script src="js/utils.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/0.2.1/trianglify.min.js"></script>
   <script type="text/javascript">
       $(function(){
           $("#sr-txt").on('keyup',function(e){
@@ -30,4 +31,11 @@
           });
       });
   </script>
+  <script>
+    var pattern = Trianglify({
+        width: window.innerWidth,
+        height: window.innerHeight
+    });
+    document.getElementById('bg').appendChild(pattern.canvas());
+</script>
 </html>

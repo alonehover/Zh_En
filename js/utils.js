@@ -18,7 +18,7 @@
                     if(i == yd.basic.explains.length -1){
                       basic += yd.basic.explains[i];
                     }else {
-                      basic += yd.basic.explains[i] + ', ';
+                      basic += yd.basic.explains[i] + '<br/>';
                     }
                   }
                   html += '<p>[有道词典]</p><p>'+ basic +'</p>';
