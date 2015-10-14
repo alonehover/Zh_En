@@ -22,8 +22,8 @@
       $(function(){
           $("#sr-txt").on('keyup',function(e){
             var k = e.keyCode || e.which;
-            if(k === 13){
-              var keyWord = $(this).val();
+            var keyWord = $(this).val();
+            if(k === 13 || keyWord.length >= 2){
               utils.trans(keyWord,function(result){
                   $('.translate').html(result).fadeIn('400');
               });
