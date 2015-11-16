@@ -11,7 +11,7 @@ html,body{
   z-index: -1;
   height: 100%;
   width: 100%;
-  /*background:url('../img/894.jpg') center /cover no-repeat;*/
+  background:url('../img/894.jpg') center /cover no-repeat;
   filter:Alpha(Opacity=50);
   opacity:0.6;
 }

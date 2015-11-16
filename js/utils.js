@@ -35,12 +35,12 @@
         $.ajax({
           url: "http://fanyi.youdao.com/openapi.do",
           type: 'GET',
-          dataType: 'json',
+          dataType: 'jsonp',
           data: {
             keyfrom: 'yinwuxueshe',
             key: '1846905756',
             type: 'data',
-            doctype: 'json',
+            doctype: 'jsonp',
             version: '1.1',
             q: key
           }
@@ -57,7 +57,7 @@
         $.ajax({
           url: 'http://openapi.baidu.com/public/2.0/bmt/translate',
           type: 'GET',
-          dataType: 'json',
+          dataType: 'jsonp',
           data: {
             from: 'auto',
             to: 'auto',
