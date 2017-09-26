@@ -1,4 +1,4 @@
 # Zh_En
-中译英
+中文翻译
 
 [en.alonehover.com](http://en.alonehover.com)
