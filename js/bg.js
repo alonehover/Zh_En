@@ -93,7 +93,6 @@
 				else if (cir.x < 0) cir.x = WIDTH;
 				if (cir.y > HEIGHT) cir.y = 0;
 				else if (cir.y < 0) cir.y = HEIGHT;
-
 			}
 			draw();
 		}, 16);
