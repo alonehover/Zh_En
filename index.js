@@ -1,5 +1,5 @@
 const express = require('express')
-const http = require('http')
+const request = require('request')
 const cheerio = require('cheerio')
 const fs = require('fs')
 
@@ -19,29 +19,18 @@ app.get('/', function(req, res) {
 
 app.get('/bing', function(req, res) {
     const keywords = req.query.q || ""
-    const url = encodeURI('http://cn.bing.com/dict/search?q=' + keywords)
+    const url = encodeURI('http://www.bing.com/dict/search?q=' + keywords)
 
-    console.log(url);
-    http.get(url, (data) => {
-        var rawData = ''
+    request.get(url, function(_err, _res, data) {
+        var $ = cheerio.load(data, {
+            decodeEntities: false
+        })
+
+        var content = $('.contentPadding')
+
+        const html = content.find('.qdef ul').html()
         
-        data.setEncoding('utf8');
-        data.on('data', function(chunk) {
-            rawData += chunk;
-        })
-
-        data.on('end', function() {
-         
-            var $ = cheerio.load(rawData, {
-                decodeEntities: false
-            })
-
-            var content = $('.contentPadding')
-
-            const html = content.find('.qdef ul').html()
-            
-            res.send(html)
-        })
+        res.send(html)
     })
 })
 
