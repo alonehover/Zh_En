@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/alonehover/Zh_En/issues"
   },
-  "homepage": "https://github.com/alonehover/Zh_En#readme"
+  "homepage": "https://github.com/alonehover/Zh_En#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.15.5",
+    "request": "^2.82.0"
+  }
 }

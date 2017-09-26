@@ -9,6 +9,10 @@ html,body{
     box-sizing: border-box;
 }
 
+ul, li {
+    list-style: none;
+}
+
 .bg{
     position: fixed;
     top: 0;
@@ -146,6 +150,13 @@ html,body{
     box-sizing: border-box;
     font-size: 1.2rem;
     line-height: 2rem;
+}
+
+/* bing */
+li > .pos {
+    margin-right: 12px;
+    padding: 2px 4px;
+    background: #666;
 }
 
 @media screen and (max-width:960px) {

@@ -2,8 +2,8 @@
 	win.utils = {
 		trans: function (key) {
 			const youdao = this.youdao(key)
-			// const baidu = this.baidu(key)
-			return Promise.all([youdao]);
+			const bing = this.bing(key)
+			return Promise.all([youdao, bing]);
 		},
 		youdao: function (key) {
 			return new Promise((resolve, reject) => {
@@ -77,19 +77,21 @@
 				});
 			})
 		},
-		biying: function (key) {
-			// $.ajax({
-			// 	url: 'http://cn.bing.com/dict/search',
-			// 	type: 'GET',
-			// 	contentType: 'text/plain',
-			// 	data: {
-			// 		q: key
-			// 	}
-			// }).done(res => {
-			// 	console.log(String(res));
-			// })
-			$('.translate').load('http://cn.bing.com/dict/search?q=' + key, function(res){
-				console.log(res);
+		bing: function (key) {
+			return new Promise((resolve, reject) => {
+				$.ajax({
+					url: '/bing',
+					type: 'GET',
+					data: {
+						q: key
+					}
+				}).done(res => {
+					if(res) {
+						var html = '<p>[必应翻译]</P>';
+						html = html + res.replace(/<\/?a[^>]*?>/ig, "")
+						resolve(html);
+					}
+				})
 			})
 		}
 	};
