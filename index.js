@@ -18,10 +18,14 @@ app.get('/', function(req, res) {
 })
 
 app.get('/bing', function(req, res) {
-    console.log(req.query);
     const keywords = req.query.q || ""
-    http.get('http://cn.bing.com/dict/search?q=' + keywords, (data) => {
+    const url = encodeURI('http://cn.bing.com/dict/search?q=' + keywords)
+
+    console.log(url);
+    http.get(url, (data) => {
         var rawData = ''
+        
+        data.setEncoding('utf8');
         data.on('data', function(chunk) {
             rawData += chunk;
         })
@@ -35,7 +39,7 @@ app.get('/bing', function(req, res) {
             var content = $('.contentPadding')
 
             const html = content.find('.qdef ul').html()
-
+            
             res.send(html)
         })
     })
