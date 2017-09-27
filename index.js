@@ -1,5 +1,5 @@
 const express = require('express')
-const http = require('http')
+const request = require('request')
 const cheerio = require('cheerio')
 const fs = require('fs')
 const qs = require('querystring')
@@ -19,29 +19,48 @@ app.get('/', function(req, res) {
 
 app.get('/bing', function(req, res) {
     const keywords = req.query.q || ""
-    const query = qs.stringify({q: keywords})
+    const query = qs.stringify({
+        q: keywords,
+        qs: 'n',
+        from: 'CM',
+        pq: keywords,
+        sc: '7-4',
+        sp: -1,
+        sk: ""
+    })
     const url = encodeURI('http://cn.bing.com/dict/search?')
 
-    http.get(url + query, (data) => {
-        var rawData = ''
-        data.setEncoding('utf8');
-        data.on('data', function(chunk) {
-            rawData += chunk;
+    request.get(url + query, function(_err, _res, data) {
+        const $ = cheerio.load(data, {
+            decodeEntities: false
         })
 
-        data.on('end', function() {
-         
-            var $ = cheerio.load(rawData, {
-                decodeEntities: false
-            })
-
-            var content = $('.contentPadding')
-            console.log(content.html());
-            const html = content.find('.qdef ul').html()
-            
-            res.send(html)
-        })
+        const content = $('.contentPadding')
+       console.log(content.html());
+        const html = content.find('.qdef ul').html()
+        console.log(html);
+        res.send(html)
     })
+    // http.get(url + query, (data) => {
+    //     var rawData = ''
+    //     data.setEncoding('utf8');
+    //     data.on('data', function(chunk) {
+    //         rawData += chunk;
+    //     })
+
+    //     data.on('end', function() {
+         
+    //         var $ = cheerio.load(rawData, {
+    //             decodeEntities: false
+    //         })
+
+    //         var content = $('.contentPadding')
+    //         console.log(content.html());
+    //         const html = content.find('.qdef ul').html()
+            
+    //         res.send(html)
+    //     })
+    // })
 })
 
 app.listen(3000, function () {
