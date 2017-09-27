@@ -2,8 +2,8 @@
 	win.utils = {
 		trans: function (key) {
 			const youdao = this.youdao(key)
-			const bing = this.bing(key)
-			return Promise.all([youdao, bing]);
+			// const bing = this.bing(key)
+			return Promise.all([youdao]);
 		},
 		youdao: function (key) {
 			return new Promise((resolve, reject) => {
