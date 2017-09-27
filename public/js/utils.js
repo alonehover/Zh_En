@@ -90,6 +90,8 @@
 						var html = '<p>[必应翻译]</P>';
 						html = html + res.replace(/<\/?a[^>]*?>/ig, "")
 						resolve(html);
+					}else {
+						resolve("");
 					}
 				})
 			})

@@ -18,7 +18,7 @@ app.get('/', function(req, res) {
 
 app.get('/bing', function(req, res) {
     const keywords = req.query.q || ""
-    const url = encodeURI('http://cn.bing.com/dict/search?q=' + keywords)
+    const url = encodeURI('http://cn.bing.com/dict/search\?\q=' + keywords)
 
     http.get(url, (data) => {
         var rawData = ''
