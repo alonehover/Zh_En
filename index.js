@@ -28,7 +28,7 @@ app.get('/bing', function(req, res) {
     })
 
     const translate = function() {
-        const url = encodeURI('http://cn.bing.com/dict/search?')
+        const url = encodeURI('http://www.bing.com/dict/search?')
         request.get(url + query, function(_err, _res, data) {
             const $ = cheerio.load(data, {
                 decodeEntities: false
