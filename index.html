@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>鹦鹉学舌</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
-    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
     <link rel="stylesheet" href="/css/index.css" media="screen" charset="utf-8">
 </head>
 
@@ -33,17 +33,21 @@
                 var k = e.keyCode || e.which;
                 var keyWord = $(this).val();
                 if (k === 13 || keyWord.length >= 2) {
-                    utils.trans(keyWord).then(rs => {
-                        var dom = ""
-                        for (let item of rs) {
-                            dom = dom + item
-                        }
-                        $('.translate').html(dom).fadeIn('400');
-                    })
+                    trans(keyWord)
                 } else if (keyWord.length === 0) {
                     $('.translate').fadeOut('200').html("");
                 }
             });
+
+            var trans = utils.debounce(function(keyWord) {
+                utils.trans(keyWord).then(rs => {
+                    var dom = ""
+                    for (let item of rs) {
+                        dom = dom + item
+                    }
+                    $('.translate').html(dom).fadeIn('400');
+                })
+            }, 800)
         });
     </script>
 </body>
