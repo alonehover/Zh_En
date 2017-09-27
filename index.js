@@ -20,47 +20,24 @@ app.get('/', function(req, res) {
 app.get('/bing', function(req, res) {
     const keywords = req.query.q || ""
     const query = qs.stringify({
-        q: keywords,
-        qs: 'n',
-        from: 'CM',
-        pq: keywords,
-        sc: '7-4',
-        sp: -1,
-        sk: ""
+        q: keywords
     })
-    const url = encodeURI('http://cn.bing.com/dict/search?')
 
-    request.get(url + query, function(_err, _res, data) {
-        const $ = cheerio.load(data, {
-            decodeEntities: false
+    request.get('http://www.bing.com/dict/?FROM=HDRSC6', function(_err, _res, data) {
+        translate() 
+    })
+
+    const translate = function() {
+        const url = encodeURI('http://cn.bing.com/dict/search?')
+        request.get(url + query, function(_err, _res, data) {
+            const $ = cheerio.load(data, {
+                decodeEntities: false
+            })
+            const content = $('.contentPadding')
+            const html = content.find('.qdef ul').html()
+            res.send(html)
         })
-
-        const content = $('.contentPadding')
-       console.log(content.html());
-        const html = content.find('.qdef ul').html()
-        console.log(html);
-        res.send(html)
-    })
-    // http.get(url + query, (data) => {
-    //     var rawData = ''
-    //     data.setEncoding('utf8');
-    //     data.on('data', function(chunk) {
-    //         rawData += chunk;
-    //     })
-
-    //     data.on('end', function() {
-         
-    //         var $ = cheerio.load(rawData, {
-    //             decodeEntities: false
-    //         })
-
-    //         var content = $('.contentPadding')
-    //         console.log(content.html());
-    //         const html = content.find('.qdef ul').html()
-            
-    //         res.send(html)
-    //     })
-    // })
+    }
 })
 
 app.listen(3000, function () {
