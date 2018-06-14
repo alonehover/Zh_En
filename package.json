@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "build": "cross-env NODE_ENV=production webpack",
-    "start": "cross-env NODE_ENV=production webpack && node index",
+    "start": "cross-env NODE_ENV=production webpack && pm2 start index --name zh_en",
     "profile": "cross-env NODE_ENV=production webpack --profile --json > stats.json"
   },
   "dependencies": {
