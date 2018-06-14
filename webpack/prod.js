@@ -9,11 +9,7 @@ module.exports = {
     mode: "production",
     context: path.resolve(__dirname, ".."), // entry配置项的根目录（绝对路径）
     entry: {
-        bundle: "./client/src",
-        vendor: [
-            "react",
-            "react-dom"
-        ]
+        bundle: "./client/src"
     },
     output: {
         path: path.resolve(__dirname, "../public/dist/"),
