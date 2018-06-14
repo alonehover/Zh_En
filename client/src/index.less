@@ -1,0 +1,170 @@
+html,body{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: "微软雅黑";
+}
+
+* {
+    box-sizing: border-box;
+}
+
+ul, li {
+    list-style: none;
+}
+
+.bg{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    background:url('./img/banner.jpg') center /cover no-repeat;
+}
+
+.star {
+    position: absolute;
+    width: 171px;
+    height: 168px;
+    -webkit-animation: star 4.5s both infinite linear;
+    animation: star 4.5s both infinite linear;
+    text-indent: -99em;
+    overflow: hidden;
+}
+
+.star::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 108px;
+    height: 152px;
+    background: url(./img/star.png) 0 0 no-repeat;
+    background-size: cover;
+}
+
+.star1 {
+    top: 30vh;
+    left: 20%;
+    -webkit-animation-delay: .3s;
+    animation-delay: .3s;
+}
+
+.star2 {
+    top: 30vh;
+    right: 100px;
+    -webkit-animation-delay: 1s;
+    animation-delay: 1s;
+}
+
+.star3 {
+    top: 20vh;
+    left: 50%;
+    -webkit-animation-delay: 2s;
+    animation-delay: 2s;
+}
+
+.star4 {
+    top: 45vh;
+    left: 50%;
+    -webkit-animation-delay: 1.4s;
+    animation-delay: 1.4s;
+}
+
+.star5 {
+    top: 60vh;
+    left: 50%;
+    -webkit-animation-delay: 3s;
+    animation-delay: 3s;
+}
+
+.star6 {
+    top: 50vh;
+    left: 30%;
+    -webkit-animation-delay: 4s;
+    animation-delay: 4s;
+}
+
+@-webkit-keyframes star {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate(216px,-304px)
+    }
+
+    12% {
+        opacity: 1;
+        -webkit-transform: translate(108px,-152px)
+    }
+
+    100%,24% {
+        opacity: 0;
+        -webkit-transform: translate(0,0)
+    }
+}
+
+@keyframes star {
+    0% {
+        opacity: 0;
+        transform: translate(216px,-304px)
+    }
+
+    12% {
+        opacity: 1;
+        transform: translate(108px,-152px)
+    }
+
+    100%,24% {
+        opacity: 0;
+        transform: translate(0,0)
+    }
+}
+
+.search-box{
+    width: 800px;
+    height: auto;
+    margin: 0 auto;
+    padding-top: 15%;
+}
+
+.sr-input{
+    width: 100%;
+    font-size: 2rem;
+    font-family: "微软雅黑";
+    padding: 10px 20px;
+    -webkit-appearance: textfield;
+}
+
+#translate{
+    display: none;
+    width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    min-height: 32px;
+    line-height: 24px;
+    background: #000;
+    opacity: 0.6;
+    color: #fff;
+    box-sizing: border-box;
+    font-size: 1.2rem;
+    line-height: 2rem;
+}
+
+/* bing */
+li > .pos {
+    margin-right: 12px;
+    padding: 2px 4px;
+    background: #666;
+}
+
+@media screen and (max-width:960px) {
+    .content{
+        padding: 0 20px;
+    }
+    .search-box{
+        width: 100%;
+    }
+    .translate{
+        width: 100%;
+    }
+}

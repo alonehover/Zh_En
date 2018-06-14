@@ -6,7 +6,7 @@ function md5(text) {
     return crypto.createHash('md5').update(text, 'utf8').digest('hex');
 }
 
-function hasChinese(obj,val){
+function hasChinese(val){
 　　var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
 　　if(reg.test(val)){     
         return true;      
@@ -15,12 +15,33 @@ function hasChinese(obj,val){
 }
 
 export default class apiCtrl {
-    static async youdao(ctx, next) {
+    static async index(ctx, next) {
         const req = ctx.request.body;
         const queryWords = req.keywords;
 
         if(!queryWords) {
-            return ctx.body = {
+            return {
+                status: 200,
+                data: ""
+            };
+        }
+
+        const data = {
+            y: await apiCtrl.youdao(queryWords),            
+            b: await apiCtrl.baidu(queryWords),
+            s: await apiCtrl.sougou(queryWords)
+        };
+
+        return ctx.body = {
+            query: queryWords,
+            data
+        };
+    }
+
+    // 有道
+    static async youdao(queryWords) {
+        if(!queryWords) {
+            return {
                 status: 200,
                 data: ""
             };
@@ -29,55 +50,58 @@ export default class apiCtrl {
         const API_URL = "http://fanyi.youdao.com/openapi.do";
         const params = {
             keyfrom: "yinwuxueshe",
-            key: CONF.account.youdao.key,
+            key: CONF.account.youdao.pid,
             type: "data",
             doctype: "json",
             version: "1.1",
             q: queryWords
         };
-    
+        
         try {
             const res = await superagent
                                 .get(API_URL)
                                 .query(params);
-       
-            return ctx.body = {
+            let result = "";
+
+            if(res.body.errorCode == 0) {
+                result = {
+                    basic:  res.body.basic ? res.body.basic.explains : "",
+                    translation: res.body.translation[0]
+                };
+            }
+
+            return {
                 status: 200,
-                data: {
-                    query: res.body.query,
-                    translation: res.body.translation
-                }
+                data: result
             }
         } catch (error) {
-            return ctx.body = {
+            return {
                 status: error.status || 500,
                 data: error
             }
         }
     }
 
-    static async sougou(ctx, next) {
+    // 搜狗
+    static async sougou(queryWords) {
         const API_URL = "http://fanyi.sogou.com/reventondc/api/sogouTranslate";
 
-        const req = ctx.request.body;
-        const queryWords = req.keywords;
-
         if(!queryWords) {
-            return ctx.body = {
+            return {
                 status: 200,
                 data: ""
             };
         }
         
         const params = {
-            q: encodeURIComponent(queryWords),
+            q: queryWords,
             from: "auto",
             to: hasChinese(queryWords) ? "en" : "zh-CHS",
             pid: CONF.account.sougou.pid,
             salt: new Date().getTime().toString(),
             sign: ""
         };
-        const sign = params.pid + queryWords.trim() + params.salt + CONF.account.baidu.key;
+        const sign = params.pid + queryWords.trim() + params.salt + CONF.account.sougou.key;        
         params.sign = encodeURIComponent(md5(sign));
         
         try {
@@ -86,39 +110,37 @@ export default class apiCtrl {
                                 .set('Content-Type', 'application/x-www-form-urlencoded;')
                                 .set('accept', 'application/json')
                                 .query(params);
-            return ctx.body = {
+            return {
                 status: 200,
-                data: res.body
+                data: res.body.errorCode == 0 ? res.body.translation : ""
             }
         } catch (error) {
-            return ctx.body = {
+            return {
                 status: error.status || 500,
                 data: error
             }
         }
     }
 
-    static async baidu(ctx, next) {
+    // 百度
+    static async baidu(queryWords) {
         const API_URL = "http://api.fanyi.baidu.com/api/trans/vip/translate";
 
-        const req = ctx.request.body;
-        const queryWords = req.keywords;
-
         if(!queryWords) {
-            return ctx.body = {
+            return {
                 status: 200,
                 data: ""
             };
         }
         
         const params = {
-            q: encodeURIComponent(queryWords),
+            q: queryWords,
             from: "auto",
             to: hasChinese(queryWords) ? "en" : "zh",
             appid: CONF.account.baidu.pid,
             salt: new Date().getTime().toString(),
             sign: ""
-        };
+        };        
         const sign = params.appid + queryWords.trim() + params.salt + CONF.account.baidu.key;
         params.sign = encodeURIComponent(md5(sign));
                 
@@ -128,12 +150,12 @@ export default class apiCtrl {
                                 .set('Content-Type', 'application/x-www-form-urlencoded;')
                                 .set('accept', 'application/json')
                                 .query(params);
-            return ctx.body = {
+            return {
                 status: 200,
-                data: res.body
+                data: res.body.trans_result[0].dst
             }
         } catch (error) {
-            return ctx.body = {
+            return {
                 status: error.status || 500,
                 data: error
             }

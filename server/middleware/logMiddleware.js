@@ -1,6 +1,6 @@
 "use strict";
 
-import Log from "../lib/log";
+import Log from "../util/log";
 
 export default logs;
 

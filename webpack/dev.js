@@ -20,7 +20,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.jsx?$/,
+                test: /\.js$/,
                 use: [
                     "babel-loader"
                 ],
@@ -81,14 +81,14 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: [".web.js", ".js", ".jsx", ".json", ".less"]
+        extensions: [".js", ".json", ".less"]
     },
     plugins: [
         new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.HotModuleReplacementPlugin(), // 热替换
         new webpack.NoEmitOnErrorsPlugin(), // 跳过编译时出错的代码并记录，使编译后运行时的包不会发生错误
         new HtmlWebpackPlugin({
-            filename: "server/views/index.html",
+            filename: "index.html",
             template: "server/views/index.tpl.html",
             favicon: "favicon.ico"
         }),

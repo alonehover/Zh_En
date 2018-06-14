@@ -3,11 +3,12 @@ import webpack from "webpack";
 import koaWebpack from "koa-webpack";
 
 import webpackConfig from "../../webpack";
+import mimes from "../util/mimes";
 
 const compiler = webpack(webpackConfig);
 
-const webpackMiddleware = async app => {
-    await koaWebpack({
+const webpackMiddleware = async app => {    
+    const middle = await koaWebpack({
         compiler,
         devMiddleware: {
             noInfo: true,
@@ -19,8 +20,21 @@ const webpackMiddleware = async app => {
         hotClient: {
             autoConfigure: false
         }
-    }).then(middle => {
-        app.use(middle);
+    });
+
+    app.use(middle);
+
+    app.use(async (ctx, next) => {
+        let extname = path.extname(ctx.path);
+        extname = extname ? mimes[extname.slice(1)] : "";
+        
+        if(!extname) {           
+            const htmlBuffer = middle.devMiddleware.fileSystem.readFileSync(path.join(webpackConfig.output.path, "./index.html"));       
+            ctx.type = 'html';
+            ctx.body = htmlBuffer;
+        }else {
+            await next();
+        }
     });
 }
 

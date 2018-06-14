@@ -6,6 +6,8 @@ import Controller from '../controller';
 
 const router = new Router();
 
+router.post("/trans", Controller.apiCtrl.index);
+
 router.post("/youdao", Controller.apiCtrl.youdao);
 
 router.post("/sougou", Controller.apiCtrl.sougou);
