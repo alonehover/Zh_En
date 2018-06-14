@@ -10,7 +10,6 @@ module.exports = {
     context: path.resolve(__dirname, ".."), // entry配置项的根目录（绝对路径）
     entry: {
         bundle: "./client/src",
-        multi: "./client/src/multiPage",
         vendor: [
             "react",
             "react-dom"
@@ -25,7 +24,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.jsx?$/,
+                test: /\.js$/,
                 use: [
                     "babel-loader"
                 ],
@@ -93,17 +92,16 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: [".web.js", ".js", ".jsx", ".json", ".less"]
+        extensions: [".js", ".json", ".less"]
     },
     plugins: [
         new webpack.optimize.ModuleConcatenationPlugin(),
-        // new webpack.optimize.SplitChunksPlugin(),
         new CleanWebpackPlugin([
             "public/dist/*"
         ], { root: process.cwd() }),  // option默认路径
         new webpack.NoEmitOnErrorsPlugin(), // 跳过编译时出错的代码并记录，使编译后运行时的包不会发生错误
         new HtmlWebpackPlugin({
-            filename: "./views/index.html",
+            filename: "../../server/views/index.html",
             template: "./server/views/index.tpl.html",
             favicon: "./favicon.ico"
         }),

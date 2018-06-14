@@ -11,7 +11,6 @@ import views from "koa-views"
 import routes from "./routes";
 import baseConf from "./config/base.conf";
 import logMiddleware from "./middleware/logMiddleware";
-import webpackMiddleware from "./middleware/webpackMiddleware";
 
 const app = new Koa();
 
@@ -27,9 +26,6 @@ app.use(views(path.resolve(__dirname, "./views"), {map: {html: "ejs"}}));
 
 // 加载日志中间件
 // app.use(logMiddleware);
-
-// webpack
-webpackMiddleware(app);
 
 // 路由
 app.use(routes);
