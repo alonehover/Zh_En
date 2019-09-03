@@ -114,4 +114,8 @@ import superagent from 'superagent';
             transDom.style.display = "none";
         }
     }, 800));
+
+    window.onload = () => {
+        document.getElementById("srTxt").focus();
+    }
 })();
